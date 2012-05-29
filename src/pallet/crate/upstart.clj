@@ -39,8 +39,8 @@
          :description :author :version :emits
          :console :umask :nice :oom :chroot :chdir
          :kill-timeout
-         :setuid
-         } k) :simple
+         :setuid} k) :simple
+      (#{:description :author} k) :quoted-string
       (#{:respawn} k) :boolean
       (#{:script :pre-start-script :post-start-script :pre-stop-script
          :post-stop-script} k) :block
@@ -51,6 +51,10 @@
 (defmethod format-stanza :simple
   [[k v]]
   (format "%s %s" (name-for k) v))
+
+(defmethod format-stanza :quoted-string
+  [[k v]]
+  (format "%s \"%s\"" (name-for k) v))
 
 (defmethod format-stanza :multi
   [[k v]]
