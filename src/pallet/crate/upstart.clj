@@ -15,14 +15,14 @@
     :yum ["upstart"]
     :aptitude ["upstart"])))
 
-(defn names {:pre-start-exec "pre-start exec"
-             :post-start-exec "post-start exec"
-             :pre-stop-exec "pre-stop exec"
-             :post-stop-exec "post-stop exec"
-             :pre-start-script "pre-start script"
-             :post-start-script "post-start script"
-             :pre-stop-script "pre-stop script"
-             :post-stop-script "post-stop script"})
+(def names {:pre-start-exec "pre-start exec"
+            :post-start-exec "post-start exec"
+            :pre-stop-exec "pre-stop exec"
+            :post-stop-exec "post-stop exec"
+            :pre-start-script "pre-start script"
+            :post-start-script "post-start script"
+            :pre-stop-script "pre-stop script"
+            :post-stop-script "post-stop script"})
 
 (defn- name-for [k]
   (k names (string/replace (name k) "-" " ")))
