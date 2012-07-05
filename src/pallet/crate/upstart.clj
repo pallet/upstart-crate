@@ -31,20 +31,22 @@
   "Format an upstart stanza"
   (fn [[k v]]
     (cond
-     (#{:exec
-        :pre-start-exec :post-start-exec :pre-stop-exec :post-stop-exec
-        :start-on :stop-on
-        :respawn-limit :normal-exit
-        :instance
-        :description :author :version :emits
-        :console :umask :nice :oom :chroot :chdir
-        :kill-timeout
-        } k) :simple
-     (#{:respawn} k) :boolean
-     (#{:script :pre-start-script :post-start-script :pre-stop-script
-        :post-stop-script} k) :block
-     (#{:env :export :kill-timeout :expect} k) :multi
-     (#{:limit} k) :map)))
+      (#{:exec
+         :pre-start-exec :post-start-exec :pre-stop-exec :post-stop-exec
+         :start-on :stop-on
+         :respawn-limit :normal-exit
+         :instance
+         :description :author :version :emits
+         :console :umask :nice :oom :chroot :chdir
+         :kill-timeout
+         :setuid
+         } k) :simple
+      (#{:respawn} k) :boolean
+      (#{:script :pre-start-script :post-start-script :pre-stop-script
+         :post-stop-script} k) :block
+      (#{:env :export :kill-timeout :expect} k) :multi
+      (#{:limit} k) :map
+      :else :simple)))
 
 (defmethod format-stanza :simple
   [[k v]]
