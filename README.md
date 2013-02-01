@@ -2,7 +2,7 @@
 
 This a crate to install and run upstart via [Pallet](http://pallet.github.com/pallet).
 
-[Release Notes](https://github.com/pallet/upstart-crate/blob/master/ReleaseNotes.md)
+[Release Notes](ReleaseNotes.md)
 
 ## Support
 
