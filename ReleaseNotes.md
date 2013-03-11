@@ -1,5 +1,12 @@
 # Release notes
 
+## pallet-crates-0.7.0-alpha.1
+
+- Add a defmethod for quoted config strings
+
+- Add support for the :setuid stanza, and default unknown keywords to :simple
+
+- Fix names var to not be a function
 
 ## pallet-crates-0.5.0
 
@@ -32,4 +39,3 @@
   etc
 
 - Add upstart (and comment using it to start a node.js server)
-
