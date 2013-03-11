@@ -11,6 +11,7 @@
        (package)
        (job "abc"
             :script "ls"
+            :description "Hussein B."
             :pre-start-exec "ifup -a"
             :limit {"disk" "100 200"}
             :env "HOME=/home"
