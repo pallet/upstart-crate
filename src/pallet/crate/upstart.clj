@@ -80,7 +80,7 @@
          :start-on :stop-on
          :respawn-limit :normal-exit
          :instance
-         :description :author :version :emits
+         :version :emits
          :console :umask :nice :oom :chroot :chdir
          :kill-timeout
          :setuid} k) :simple
