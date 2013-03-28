@@ -14,16 +14,17 @@
 (deftest invoke-test
   (is (build-actions/build-actions {}
         (upstart/settings {})
-        (upstart/install)
+        (upstart/install {})
         (upstart/job "abc"
-                     :script "ls"
-                     :description "Hussein B."
-                     :pre-start-exec "ifup -a"
-                     :limit {"disk" "100 200"}
-                     :env "HOME=/home"
-                     :export ["HOME" "AWAY"]
-                     :respawn true)
-        (upstart/jobs))))
+                     {:script "ls"
+                      :description "Hussein B."
+                      :pre-start-exec "ifup -a"
+                      :limit {"disk" "100 200"}
+                      :env "HOME=/home"
+                      :export ["HOME" "AWAY"]
+                      :respawn true}
+                     {})
+        (upstart/jobs {}))))
 
 (defn upstart-test [config]
   (service-supervisor-test :upstart config {}))
