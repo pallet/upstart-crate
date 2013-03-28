@@ -5,6 +5,7 @@
                  [com.palletops/crates "0.8.0-SNAPSHOT"]
                  [riemann-clojure-client "0.0.3"]
                  [ch.qos.logback/logback-classic "1.0.9"]]
+  :plugins [[com.palletops/pallet-lein "0.6.0-SNAPSHOT"]]
   :aliases {"live-test-up"
             ["pallet" "up"
              "--phases" "install,configure,test"
