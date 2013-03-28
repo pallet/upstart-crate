@@ -9,7 +9,7 @@
   :aliases {"live-test-up"
             ["pallet" "up"
              "--phases" "install,configure,test"
-             "--selector" "live-test"]
+             "--selectors" "live-test"]
             "live-test-down" ["pallet" "down" "--selector" "live-test"]
             "live-test" ["do" "live-test-up," "live-test-down"]}
   :test-selectors {:default (complement :live-test)
