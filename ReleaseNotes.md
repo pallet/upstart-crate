@@ -1,5 +1,9 @@
 # Release notes
 
+## pallet-crates-0.7.0-alpha.2
+
+- remove the quoted-string keys from list of keys with :simple formatting
+
 ## pallet-crates-0.7.0-alpha.1
 
 - Add a defmethod for quoted config strings
