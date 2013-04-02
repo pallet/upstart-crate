@@ -1,11 +1,8 @@
 {:dev
- {:dependencies [[com.palletops/pallet "0.8.0-SNAPSHOT" :classifier "tests"]
-                 [com.palletops/java-crate "0.8.0-beta.1"]
-                 [com.palletops/runit-crate "0.8.0-SNAPSHOT"]
-                 [com.palletops/crates "0.8.0-SNAPSHOT"]
-                 [riemann-clojure-client "0.0.3"]
+ {:dependencies [[com.palletops/pallet "0.8.0-beta.6" :classifier "tests"]
+                 [com.palletops/crates "0.1.0"]
                  [ch.qos.logback/logback-classic "1.0.9"]]
-  :plugins [[com.palletops/pallet-lein "0.6.0-SNAPSHOT"]]
+  :plugins [[com.palletops/pallet-lein "0.6.0-beta.8"]]
   :aliases {"live-test-up"
             ["pallet" "up"
              "--phases" "install,configure,test"
