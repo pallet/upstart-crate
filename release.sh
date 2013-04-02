@@ -29,7 +29,7 @@ git --no-pager log --pretty=changelog upstart-$previous_version..
 echo ""
 echo ""
 
-$EDITOR resources/pallet/upstart_crate/meta.edn
+$EDITOR resources/pallet/upstart_crate/meta.edn \
 && git add resources/pallet/upstart_crate/meta.edn \
 && git commit -m "Updated metadata for $version" \
 && lein crate-doc \
