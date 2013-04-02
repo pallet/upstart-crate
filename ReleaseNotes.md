@@ -1,6 +1,25 @@
 # Release notes
 
-## pallet-crates-0.7.0-alpha.1
+## upstart-0.8.0-alpha.1
+
+- Update versions for pallet 0.8.0-beta.6
+
+- Rename jobs to configure
+  Standardising on the configure name for the plan function that writes 
+  configuration files.
+
+- Make :start succeed if already running
+  A process :start action should succeed if the process is already running. 
+  The upstart start command returns failure in this situation, so this adds
+  an explicit check for this state.
+
+- remove the quoted-string keys from list of keys with :simple formatting
+
+- Update for service abstraction
+
+- Use lein as build tool
+
+## upstart-0.7.0-alpha.1
 
 - Add a defmethod for quoted config strings
 
