@@ -24,7 +24,7 @@
                       :export ["HOME" "AWAY"]
                       :respawn true}
                      {})
-        (upstart/jobs {}))))
+        (upstart/configure {}))))
 
 (defn upstart-test [config]
   (service-supervisor-test :upstart config {}))

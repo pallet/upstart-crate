@@ -199,7 +199,7 @@
    (rm @tmpfile :force true)
    (exit @rv)))
 
-(defn jobs
+(defn configure
   "Write out job definitions."
   [{:keys [instance-id]}]
   (let [{:keys [bin-dir jobs service-dir verify-dir]}
@@ -273,4 +273,4 @@
                         (pallet.crate.upstart/settings
                          (merge settings options)))
             :install (plan-fn (install options))
-            :configure (plan-fn (jobs options))}))
+            :configure (plan-fn (configure options))}))
