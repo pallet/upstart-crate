@@ -1,0 +1,119 @@
+<html lang="en">
+  <head>
+    <title>pallet.crate.upstart documentation</title>
+    <link href="css/default.css" type="text/css" rel="stylesheet" />
+    <link href="css/codox-md.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/page_effects.js"></script>
+  </head>
+  <body>
+    <header>
+    <div data-scrollspy="scrollspy" class="topbar">
+      <div class="topbar-inner">
+        <div class="container">
+          <a href="/" class="brand">Pallet</a>
+          <ul class="nav">
+            <li class=""><a href="/doc">Documentation</a></li>
+            <li class=""><a href="/news">News</a></li>
+            <li class=""><a href="/blog">Blog</a></li>
+            <li class=""><a href="https://github.com/pallet/pallet">Code</a></li>
+            <li class=""><a href="/services">Services</a></li>
+            <li class=""><a href="/support">Support</a></li>
+            <li class=""><a href="/contact">Contact</a></li>
+          </ul>
+          <form action="http://www.google.com/search" method="get" class="pull-right">
+            <input placeholder="Search" value="" maxlength="255" name="q" type="text" />
+            <input value="palletops.com" type="hidden" name="sitesearch" />
+          </form>
+        </div>
+      </div>
+    </div>
+      <div id="header">
+        <h1><a href="http://palletops.com"><span class="project-title">Upstart-crate 0.8.0-SNAPSHOT API documentation</span></a></h1>
+      </div>
+    </header>
+    <navigation>
+      <div id="namespaces" class="sidebar">
+        <h3>Namespaces</h3>
+        <ul class="ns-links">
+          <li class="ns-list"><a class="ns-link ns-name" href="pallet.crate.upstart.html">pallet.crate.upstart</a></li>
+        </ul>
+      </div>
+      <div id="vars" class="sidebar">
+        <h3>Public Vars</h3>
+        <ul class="ns-var-links">
+          <li class="ns-var-list"><a class="ns-var-link ns-var-name" href="pallet.crate.upstart.html#var-configure">configure</a></li><li class="ns-var-list"><a class="ns-var-link ns-var-name" href="pallet.crate.upstart.html#var-default-settings">default-settings</a></li><li class="ns-var-list"><a class="ns-var-link ns-var-name" href="pallet.crate.upstart.html#var-format-stanza">format-stanza</a></li><li class="ns-var-list"><a class="ns-var-link ns-var-name" href="pallet.crate.upstart.html#var-install">install</a></li><li class="ns-var-list"><a class="ns-var-link ns-var-name" href="pallet.crate.upstart.html#var-job">job</a></li><li class="ns-var-list"><a class="ns-var-link ns-var-name" href="pallet.crate.upstart.html#var-settings">settings</a></li><li class="ns-var-list"><a class="ns-var-link ns-var-name" href="pallet.crate.upstart.html#var-verify-conf-script">verify-conf-script</a></li>
+        </ul>
+      </div>
+    </navigation>
+    <article>
+      <div id="content" class="namespace-docs">
+        <h2 class="namespace-title">pallet.crate.upstart documentation</h2>
+        <div class="doc"><p>Create upstart daemon scripts</p>
+</div>
+        <div class="ns-vars">
+          <div class="public">
+            <h3><a id="var-configure" class="source var-name" href="https://github.com/pallet/upstart-crate/blob/develop/src/pallet/crate/upstart.clj#L202">configure</a></h3>
+            <h4 class="var-type fn" id="var-type">fn</h4>
+            <div class="usage">[{:keys [instance-id]}]</div>
+            
+            
+            <div class="doc"><p>Write out job definitions.</p>
+</div>
+          </div><div class="public">
+            <h3><a id="var-default-settings" class="source var-name" href="https://github.com/pallet/upstart-crate/blob/develop/src/pallet/crate/upstart.clj#L26">default-settings</a></h3>
+            <h4 class="var-type fn" id="var-type">fn</h4>
+            <div class="usage">[]</div>
+            
+            
+            <div class="doc"><p>Provides default settings, that are merged with any user supplied settings.</p>
+</div>
+          </div><div class="public">
+            <h3><a id="var-format-stanza" class="source var-name" href="https://github.com/pallet/upstart-crate/blob/develop/src/pallet/crate/upstart.clj#L74">format-stanza</a></h3>
+            <h4 class="var-type var" id="var-type">var</h4>
+            
+            
+            
+            <div class="doc"><p>Format an upstart stanza</p>
+</div>
+          </div><div class="public">
+            <h3><a id="var-install" class="source var-name" href="https://github.com/pallet/upstart-crate/blob/develop/src/pallet/crate/upstart.clj#L55">install</a></h3>
+            <h4 class="var-type fn" id="var-type">fn</h4>
+            <div class="usage">[{:keys [instance-id]}]</div>
+            
+            
+            <div class="doc"><p>Install upstart</p>
+</div>
+          </div><div class="public">
+            <h3><a id="var-job" class="source var-name" href="https://github.com/pallet/upstart-crate/blob/develop/src/pallet/crate/upstart.clj#L132">job</a></h3>
+            <h4 class="var-type fn" id="var-type">fn</h4>
+            <div class="usage">[service-name {:keys [script exec pre-start-script post-start-script pre-stop-script post-stop-script pre-start-exec post-start-exec pre-stop-exec post-stop-exec start-on stop-on env export respawn respawn-limit normal-exit instance description author version emits console umask nice oom chroot chdir limit kill-timeout expect], :as service-options} {:keys [instance-id], :as options}]</div>
+            
+            
+            <div class="doc"><p>Define an upstart job.
+:start-on, :stop-on, :env, :export takes a sequency of strings.
+:limit takes a map of limit-resource and soft hard limit pairs as a string</p>
+</div>
+          </div><div class="public">
+            <h3><a id="var-settings" class="source var-name" href="https://github.com/pallet/upstart-crate/blob/develop/src/pallet/crate/upstart.clj#L47">settings</a></h3>
+            <h4 class="var-type fn" id="var-type">fn</h4>
+            <div class="usage">[{:keys [instance-id], :as settings}]</div>
+            
+            
+            <div class="doc"><p>Settings for upstart</p>
+</div>
+          </div><div class="public">
+            <h3><a id="var-verify-conf-script" class="source var-name" href="https://github.com/pallet/upstart-crate/blob/develop/src/pallet/crate/upstart.clj#L170">verify-conf-script</a></h3>
+            <h4 class="var-type fn" id="var-type">fn</h4>
+            <div class="usage">[bin-dir]</div>
+            
+            
+            <div class="doc"><p>Return a script to verify an upstart job.</p>
+</div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </body>
+
+</html>
