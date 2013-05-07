@@ -253,14 +253,33 @@
            (if-not ((pipe ((prog "status") ~(name service-name))
                           ("grep" "running")))
              ((prog ~action) (quoted ~(name service-name)))))
-          (if (= action :start)
-            ;; upstart reports an error if we try starting when already
-            ;; running
+          (case action
+            ;; upstart reports an error if we try starting when already running
+            :start
             (exec-checked-script
              (str (name action) " " service-name)
              (if-not ((pipe ((prog "status") ~(name service-name))
                             ("grep" "running")))
                ((prog ~action) (quoted ~(name service-name)))))
+
+            ;; upstart reports an error if we try stopping when not running
+            :stop
+            (exec-checked-script
+             (str (name action) " " service-name)
+             (if ((pipe ((prog "status") ~(name service-name))
+                        ("grep" "running")))
+               ((prog ~action) (quoted ~(name service-name)))))
+
+            ;; upstart reports an error if we try restarting when not running
+            :restart
+            (exec-checked-script
+             (str (name action) " " service-name)
+             (if ((pipe ((prog "status") ~(name service-name))
+                        ("grep" "running")))
+               ((prog ~action) (quoted ~(name service-name)))
+               ((prog :start) (quoted ~(name service-name)))))
+
+            ;; otherwise, just perform the action
             (exec-checked-script
              (str (name action) " " service-name)
              ((prog ~action) (quoted ~(name service-name))))))))))
