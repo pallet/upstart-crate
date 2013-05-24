@@ -4,10 +4,7 @@
 [Annotated source](http://palletops.com/upstart-crate/0.8/annotated/uberdoc.html) &#xb7;
 [Release Notes](https://github.com/pallet/upstart-crate/blob/develop/ReleaseNotes.md)
 
- A [pallet](http://palletops.com/) crate to install and configure
-[upstart](http://smarden.org/upstart/).
-
-The `upstart` configuration does not replace the system init as PID 1.
+A pallet crate to install and configure upstart.
 
 ### Dependency Information
 
@@ -43,6 +40,8 @@ The `upstart` configuration does not replace the system init as PID 1.
 
 ## Usage
 
+The `upstart` configuration does not replace the system init as PID 1.
+
 The `server-spec` function provides a convenient pallet server spec for
 upstart.  It takes a single map as an argument, specifying configuration
 choices, as described below for the `settings` function.  You can use this
@@ -66,6 +65,16 @@ The `install` function is responsible for actually installing upstart.
 
 The `configure` function writes the upstart configuration file, using the form
 passed to the :config key in the `settings` function.
+
+To create an upstart job, you can write a method for
+[`supervisor-config-map`](http://palletops.com/api/0.8/pallet.crate.service.html#var-supervisor-config-map).
+
+```clj
+(defmethod supervisor-config-map [:riemann :runit]
+  [_ {:keys [run-command service-name user] :as settings} options]
+  {:service-name service-name
+   :run-file {:content (str "#!/bin/sh\nexec chpst -u " user " " run-command)}})
+```
 
 ## Support
 
