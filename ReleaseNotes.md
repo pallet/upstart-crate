@@ -1,5 +1,16 @@
 # Release notes
 
+## upstart-0.8.0-alpha.2
+
+- Make service file verification optional
+
+- Make service actions idempotent
+  The :start, :stop, and :restart actions should not complain if the service 
+  is not in the expected state.
+
+- Make codox link to correct source
+
+
 ## upstart-0.8.0-alpha.1
 
 - Update versions for pallet 0.8.0-beta.6
