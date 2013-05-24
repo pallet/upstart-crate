@@ -1,4 +1,4 @@
-(defproject com.palletops/upstart-crate "0.8.0-SNAPSHOT"
+(defproject com.palletops/upstart-crate "0.8.0-alpha.2"
   :description "Crate for Upstart installation"
   :url "http://github.com/pallet/riemann-crate"
   :license {:name "Eclipse Public License"
