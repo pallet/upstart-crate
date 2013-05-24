@@ -30,7 +30,8 @@
   {:service-dir (fragment (upstart-script-dir))
    :sbin-dir (fragment (pkg-sbin))
    :bin-dir "/bin"
-   :verify-dir (fragment (file (state-root) "pallet" "pallet-bin"))})
+   :verify-dir (fragment (file (state-root) "pallet" "pallet-bin"))
+   :verify true})
 
 ;;; ## Settings
 (defmulti-version-plan settings-map [version settings])
@@ -46,7 +47,8 @@
 
 (defplan settings
   "Settings for upstart"
-  [{:keys [instance-id] :as settings}]
+  [{:keys [bin-dir instance-id service-dir sbin-dir verify verify-dir]
+    :as settings}]
   (let [settings (merge (default-settings) settings)
         settings (settings-map (:version settings) settings)]
     (assoc-settings :upstart settings {:instance-id instance-id})))
@@ -202,7 +204,7 @@
 (defn configure
   "Write out job definitions."
   [{:keys [instance-id]}]
-  (let [{:keys [bin-dir jobs service-dir verify-dir]}
+  (let [{:keys [bin-dir jobs service-dir verify verify-dir]}
         (get-settings :upstart {:instance-id instance-id})]
     (doseq [[job options] jobs
             :let [job-name (name job)
@@ -218,8 +220,9 @@
        path
        :content (job-format options)
        :literal true
-       :verify (fragment
-                ((sudo :user ~(:username (admin-user))) ~verify-path))))))
+       :verify (when verify
+                 (fragment
+                  ((sudo :user ~(:username (admin-user))) ~verify-path)))))))
 
 ;;; ## Service Control
 
