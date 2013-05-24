@@ -24,4 +24,11 @@
                  "doc" ["do" "codox," "marg"]}}
  :release
  {:set-version
-  {:updates [{:path "README.md" :no-snapshot true}]}}}
+  {:updates [{:path "README.md" :no-snapshot true}]}}
+ :jclouds {:dependencies
+           [[com.palletops/pallet-jclouds "1.5.3"]
+            [org.jclouds/jclouds-allblobstore "1.5.5"]
+            [org.jclouds/jclouds-allcompute "1.5.5"]
+            [org.jclouds.driver/jclouds-slf4j "1.5.5"
+             :exclusions [org.slf4j/slf4j-api]]
+            [org.jclouds.driver/jclouds-sshj "1.5.5"]]}}
