@@ -3028,7 +3028,7 @@ net.brehaut.ClojureTools = (function (SH) {
     build_tree: build_tree
   };
 })(SyntaxHighlighter);
-</script><title>com.palletops/upstart-crate -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">com.palletops/upstart-crate</h1><h2 class="project-version">0.8.0-SNAPSHOT</h2><br /><p>Crate for Upstart installation</p>
+</script><title>com.palletops/upstart-crate -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">com.palletops/upstart-crate</h1><h2 class="project-version">0.8.0-alpha.2</h2><br /><p>Crate for Upstart installation</p>
 </div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.4.0</td></tr><tr><td class="dep-name">com.palletops/pallet</td><td class="dotted"><hr /></td><td class="dep-version">0.8.0-beta.6</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#pallet.crate.upstart">pallet.crate.upstart</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#pallet.crate.upstart" name="pallet.crate.upstart"><h1 class="project-name">pallet.crate.upstart</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>Create upstart daemon scripts</p>
 </td><td class="codes"><pre class="brush: clojure">(ns pallet.crate.upstart
   (:require
@@ -3060,7 +3060,8 @@ net.brehaut.ClojureTools = (function (SH) {
   {:service-dir (fragment (upstart-script-dir))
    :sbin-dir (fragment (pkg-sbin))
    :bin-dir &quot;/bin&quot;
-   :verify-dir (fragment (file (state-root) &quot;pallet&quot; &quot;pallet-bin&quot;))})</pre></td></tr><tr><td class="docs"><h2>Settings</h2>
+   :verify-dir (fragment (file (state-root) &quot;pallet&quot; &quot;pallet-bin&quot;))
+   :verify true})</pre></td></tr><tr><td class="docs"><h2>Settings</h2>
 </td><td class="codes"><pre class="brush: clojure">(defmulti-version-plan settings-map [version settings])</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defmethod-version-plan
     settings-map {:os :linux}
@@ -3071,7 +3072,8 @@ net.brehaut.ClojureTools = (function (SH) {
            :install-strategy :packages
            :packages [&quot;upstart&quot;])))</pre></td></tr><tr><td class="docs"><p>Settings for upstart</p>
 </td><td class="codes"><pre class="brush: clojure">(defplan settings
-  [{:keys [instance-id] :as settings}]
+  [{:keys [bin-dir instance-id service-dir sbin-dir verify verify-dir]
+    :as settings}]
   (let [settings (merge (default-settings) settings)
         settings (settings-map (:version settings) settings)]
     (assoc-settings :upstart settings {:instance-id instance-id})))</pre></td></tr><tr><td class="docs"><p>Install upstart</p>
@@ -3203,7 +3205,7 @@ net.brehaut.ClojureTools = (function (SH) {
    (exit @rv)))</pre></td></tr><tr><td class="docs"><p>Write out job definitions.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn configure
   [{:keys [instance-id]}]
-  (let [{:keys [bin-dir jobs service-dir verify-dir]}
+  (let [{:keys [bin-dir jobs service-dir verify verify-dir]}
         (get-settings :upstart {:instance-id instance-id})]
     (doseq [[job options] jobs
             :let [job-name (name job)
@@ -3219,8 +3221,9 @@ net.brehaut.ClojureTools = (function (SH) {
        path
        :content (job-format options)
        :literal true
-       :verify (fragment
-                ((sudo :user ~(:username (admin-user))) ~verify-path))))))</pre></td></tr><tr><td class="docs"><h2>Service Control</h2>
+       :verify (when verify
+                 (fragment
+                  ((sudo :user ~(:username (admin-user))) ~verify-path)))))))</pre></td></tr><tr><td class="docs"><h2>Service Control</h2>
 </td><td class="codes"></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defmethod service-supervisor :upstart
   [_
@@ -3252,14 +3255,33 @@ net.brehaut.ClojureTools = (function (SH) {
            (if-not ((pipe ((prog &quot;status&quot;) ~(name service-name))
                           (&quot;grep&quot; &quot;running&quot;)))
              ((prog ~action) (quoted ~(name service-name)))))
-          (if (= action :start)
-            ;; upstart reports an error if we try starting when already
-            ;; running
+          (case action
+            ;; upstart reports an error if we try starting when already running
+            :start
             (exec-checked-script
              (str (name action) &quot; &quot; service-name)
              (if-not ((pipe ((prog &quot;status&quot;) ~(name service-name))
                             (&quot;grep&quot; &quot;running&quot;)))
                ((prog ~action) (quoted ~(name service-name)))))
+
+            ;; upstart reports an error if we try stopping when not running
+            :stop
+            (exec-checked-script
+             (str (name action) &quot; &quot; service-name)
+             (if ((pipe ((prog &quot;status&quot;) ~(name service-name))
+                        (&quot;grep&quot; &quot;running&quot;)))
+               ((prog ~action) (quoted ~(name service-name)))))
+
+            ;; upstart reports an error if we try restarting when not running
+            :restart
+            (exec-checked-script
+             (str (name action) &quot; &quot; service-name)
+             (if ((pipe ((prog &quot;status&quot;) ~(name service-name))
+                        (&quot;grep&quot; &quot;running&quot;)))
+               ((prog ~action) (quoted ~(name service-name)))
+               ((prog :start) (quoted ~(name service-name)))))
+
+            ;; otherwise, just perform the action
             (exec-checked-script
              (str (name action) &quot; &quot; service-name)
              ((prog ~action) (quoted ~(name service-name))))))))))</pre></td></tr><tr><td class="docs"><h2>Server Spec</h2>
