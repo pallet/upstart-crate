@@ -4,15 +4,12 @@
 [Annotated source](http://palletops.com/upstart-crate/0.8/annotated/uberdoc.html) &#xb7;
 [Release Notes](https://github.com/pallet/upstart-crate/blob/develop/ReleaseNotes.md)
 
- A [pallet](http://palletops.com/) crate to install and configure
-[upstart](http://smarden.org/upstart/).
-
-The `upstart` configuration does not replace the system init as PID 1.
+A pallet crate to install and configure upstart.
 
 ### Dependency Information
 
 ```clj
-:dependencies [[com.palletops/upstart-crate "0.8.0-alpha.1"]]
+:dependencies [[com.palletops/upstart-crate "0.8.0-alpha.2"]]
 ```
 
 ### Releases
@@ -24,11 +21,11 @@ The `upstart` configuration does not replace the system init as PID 1.
 <tbody>
   <tr>
     <th>0.8.0-beta.6</th>
-    <td>0.8.0-alpha.1</td>
+    <td>0.8.0-alpha.2</td>
     <td>clojars</td>
     <td>com.palletops</td>
-    <td><a href='https://github.com/pallet/upstart-crate/blob/0.8.0-alpha.1/ReleaseNotes.md'>Release Notes</a></td>
-    <td><a href='https://github.com/pallet/upstart-crate/blob/0.8.0-alpha.1/'>Source</a></td>
+    <td><a href='https://github.com/pallet/upstart-crate/blob/0.8.0-alpha.2/ReleaseNotes.md'>Release Notes</a></td>
+    <td><a href='https://github.com/pallet/upstart-crate/blob/0.8.0-alpha.2/'>Source</a></td>
   </tr>
   <tr>
     <th>0.7.2</th>
@@ -42,6 +39,8 @@ The `upstart` configuration does not replace the system init as PID 1.
 </table>
 
 ## Usage
+
+The `upstart` configuration does not replace the system init as PID 1.
 
 The `server-spec` function provides a convenient pallet server spec for
 upstart.  It takes a single map as an argument, specifying configuration
@@ -66,6 +65,16 @@ The `install` function is responsible for actually installing upstart.
 
 The `configure` function writes the upstart configuration file, using the form
 passed to the :config key in the `settings` function.
+
+To create an upstart job, you can write a method for
+[`supervisor-config-map`](http://palletops.com/api/0.8/pallet.crate.service.html#var-supervisor-config-map).
+
+```clj
+(defmethod supervisor-config-map [:riemann :runit]
+  [_ {:keys [run-command service-name user] :as settings} options]
+  {:service-name service-name
+   :run-file {:content (str "#!/bin/sh\nexec chpst -u " user " " run-command)}})
+```
 
 ## Support
 
