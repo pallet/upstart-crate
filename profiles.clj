@@ -26,6 +26,7 @@
  :release
  {:set-version
   {:updates [{:path "README.md" :no-snapshot true}]}}
+ :no-checkouts {:checkout-deps-shares ^:replace []} ; disable checkouts
  :jclouds {:dependencies
            [[com.palletops/pallet-jclouds "1.5.3"]
             [org.jclouds/jclouds-allblobstore "1.5.5"]
